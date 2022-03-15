@@ -24,7 +24,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/add_details', 'BankDetailController@adddetail')->middleware(('auth'));
-Route::post('/create', 'BankDetailController@store')->middleware(('auth'));
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/home', 'BankDetailController@bankView')->name('home');
+    
+    Route::get('/add_details', 'BankDetailController@adddetail');
+    Route::post('/create', 'BankDetailController@store');
+
+
+    Route::get('/bankEdit/{id}', 'BankDetailController@edit');
+    Route::post('/bankEdit/{id}', 'BankDetailController@editStore');
+    Route::get('/bankDelete/{id}', 'BankDetailController@destroy');
+});

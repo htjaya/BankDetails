@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Maintain Your Bank Details
+                    Manage Bank Details
                 </div>
 
 

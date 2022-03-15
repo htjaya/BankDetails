@@ -7,36 +7,19 @@ use Illuminate\Http\Request;
 
 class BankDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function bankView()
     {
-        //
+        $bank_details = BankDetail::all();
+        return view('home', compact('bank_details'));
     }
 
-
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function adddetail()
     {
         return view('/add_details');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $request['user_id'] = auth()->user()->id;
@@ -54,48 +37,31 @@ class BankDetailController extends Controller
         return redirect('/home');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\BankDetail  $bankDetail
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BankDetail $bankDetail)
+
+
+    public function edit($id)
     {
-        //
+        $bank = BankDetail::find($id);
+        return view('edit', compact('bank'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\BankDetail  $bankDetail
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BankDetail $bankDetail)
+    public function editStore(Request $request, $id)
     {
-        //
+
+        $bank_details = BankDetail::find($id);
+        $bank_details->bank_name = $request->bank_name;
+        $bank_details->branch = $request->branch;
+        $bank_details->branch_code = $request->branch_code;
+        $bank_details->account_number = $request->account_number;
+        $bank_details->save();
+
+        return redirect('/home');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BankDetail  $bankDetail
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, BankDetail $bankDetail)
+    public function destroy($id)
     {
-        //
-    }
+        BankDetail::find($id)->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\BankDetail  $bankDetail
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BankDetail $bankDetail)
-    {
-        //
+        return redirect('/home');
     }
 }
